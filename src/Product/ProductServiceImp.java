@@ -1,10 +1,12 @@
 package Product;
+import Stock.StockController;
 import exception.ObjectNotFound;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 
 public class ProductServiceImp implements ProductService {
     private final ProductDAO productDAO= new ProductDAOImpl();
+
     @Override
     public ProductDTO addProduct(ProductDTO product) throws SQLException {
         productDAO.addProduct(product);
@@ -47,5 +49,10 @@ public class ProductServiceImp implements ProductService {
     @Override
     public ProductDTO[] findProductsByCategory(String category) throws SQLException {
         return productDAO.findProductsByCategory(category);
+    }
+
+    @Override
+    public boolean deleteProduct(int idOfProduct) throws SQLException {
+        return productDAO.deleteProduct(idOfProduct);
     }
 }

@@ -1,5 +1,6 @@
 package Product;
 
+import Stock.StockController;
 import exception.ObjectNotFound;
 
 import java.sql.SQLException;
@@ -10,6 +11,7 @@ public class ProductController {
     private String productName,category;
     private Double salesPrice,purchasePrice;
     private final ProductService productService = new ProductServiceImp();
+    StockController stockController = new StockController();
     private static Scanner obj = new Scanner(System.in);
     void addProduct() {
         try {
@@ -26,7 +28,9 @@ public class ProductController {
             product.setProductName(productName);
             product.setPurchasePrice(purchasePrice);
             product.setSalesPrice(salesPrice);
+            stockController.addProductStock();
             productService.addProduct(product);
+
         }catch (ObjectNotFound e){
             System.out.println(e.getMessage());
         }
@@ -85,5 +89,10 @@ public class ProductController {
 
     private int getNumberOfRows(String tableName) throws SQLException {
         return productService.getNumOfProducts(tableName);
+    }
+
+    boolean deleteProduct(int idOfProduct) throws SQLException {
+        stockController.deleteProduct(idOfProduct);
+        return productService.deleteProduct(idOfProduct);
     }
 }

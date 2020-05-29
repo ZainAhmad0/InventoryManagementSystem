@@ -9,4 +9,5 @@ public interface ProductDAO {
     int getNumOfRows(String tableName) throws SQLException;
     ProductDTO[] showTable(String tableName) throws SQLException;
     ProductDTO[] findProductsByCategory(String category) throws SQLException;
+    boolean deleteProduct(int idOfProduct) throws SQLException;
 }

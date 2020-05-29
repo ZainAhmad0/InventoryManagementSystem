@@ -1,5 +1,7 @@
 package Product;
 import database.DB;
+import exception.ObjectNotFound;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +19,7 @@ public class ProductDAOImpl implements ProductDAO{
     private static final String update ="UPDATE InventoryManagementSystem.Products\n" +
             "SET Product_Name=''{0}'', Sales_Price= {1}, Purchase_Price= {2}, Category=''{3}''\n" +
             "WHERE Product_Id= {4} ;\n";
+    private  static final String DELETE_BY_PRODUCT_ID = "DELETE  FROM InventoryManagementSystem.Products WHERE Product_Id = {0};";
     @Override
     public ProductDTO addProduct(ProductDTO product) throws SQLException {
         Connection conn = DB.connectDB();
@@ -110,6 +113,18 @@ public class ProductDAOImpl implements ProductDAO{
             products[count++]=temp;
         }
         return products;
+    }
+
+    @Override
+    public boolean deleteProduct(int idOfProduct) throws SQLException {
+        Connection conn = DB.connectDB();
+        String deleteQuery = MessageFormat.format(DELETE_BY_PRODUCT_ID,idOfProduct);
+        PreparedStatement statement = conn.prepareStatement(deleteQuery);
+        int count = statement.executeUpdate();
+        if(count==0){
+            throw  new ObjectNotFound("Invalid Product Id Entered...");
+        }
+        return true;
     }
 
 }

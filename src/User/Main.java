@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         //obj.registerUser();
         // obj.isUserValid(user)
-        obj.deleteUser("ehtesham");
+        // obj.deleteUser("ehtesham");
         //obj.getRegisteredUser();
     }
 }
