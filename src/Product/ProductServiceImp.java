@@ -55,4 +55,9 @@ public class ProductServiceImp implements ProductService {
     public boolean deleteProduct(int idOfProduct) throws SQLException {
         return productDAO.deleteProduct(idOfProduct);
     }
+
+    @Override
+    public boolean validateProductByIdAndCategory(int productID, String category) throws SQLException,ObjectNotFound{
+        return productDAO.validateProductByIdAndCategory(productID,category);
+    }
 }

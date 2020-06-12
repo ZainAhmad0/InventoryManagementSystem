@@ -11,18 +11,21 @@ public class ProductController {
     private String productName,category;
     private Double salesPrice,purchasePrice;
     private final ProductService productService = new ProductServiceImp();
-    StockController stockController = new StockController();
-    private static Scanner obj = new Scanner(System.in);
+    private StockController stockController = new StockController();
+    private  Scanner obj = new Scanner(System.in);
+    private  Scanner obj1 = new Scanner(System.in);
     void addProduct() {
         try {
             System.out.print("Enter Product Name : ");
             productName = obj.nextLine();
-            System.out.print("Enter Product Category : ");
-            category = obj.nextLine();
             System.out.print("Enter Product Sales Price : ");
             salesPrice = obj.nextDouble();
             System.out.print("Enter Product Purchase Price : ");
             purchasePrice = obj.nextDouble();
+            obj.nextLine();
+            System.out.print("Enter Product Category : ");
+            //category = "Men Clothes";
+            category = obj.nextLine();
             ProductDTO product = new ProductDTO();
             product.setCategory(category);
             product.setProductName(productName);
@@ -50,18 +53,18 @@ public class ProductController {
     }
     void updateProductCategory() throws SQLException {
         System.out.print("Enter Product Name : ");
-        productName=obj.nextLine();
+        productName=obj1.nextLine();
         System.out.print("Enter New Product Category : ");
-        category=obj.nextLine();
+        category=obj1.nextLine();
         ProductDTO product = new ProductDTO();
         product.setCategory(category);
         productService.updateProduct(productName,product);
     }
     void updateProductSalesPrice() throws SQLException {
         System.out.print("Enter Product Name : ");
-        productName=obj.nextLine();
+        productName=obj1.nextLine();
         System.out.print("Enter New Sales Price of the Product : ");
-        salesPrice=obj.nextDouble();
+        salesPrice=obj1.nextDouble();
         ProductDTO product = new ProductDTO();
         product.setSalesPrice(salesPrice);
         productService.updateProduct(productName,product);
@@ -79,12 +82,13 @@ public class ProductController {
 
     public void showProductsByCategory(String category) throws SQLException {
         ProductDTO[] products=productService.findProductsByCategory(category);
-        System.out.println("ID          Name          Price          Category");
         for(int i=0; i<products.length; i++){
-            System.out.println(products[i].getProductID()+"          "+products[i].getProductName()+
-                    "          "+products[i].getSalesPrice()+"          "+products[i].getCategory());
+            System.out.println(                     "******* Product "+(i+1)+" *******");
+            System.out.println("Product ID : "+ products[i].getProductID());
+            System.out.println("Product Name : "+products[i].getProductName());
+            System.out.println("Price : "+products[i].getSalesPrice() + " /- Only.");
+            System.out.println();
         }
-
     }
 
     private int getNumberOfRows(String tableName) throws SQLException {
@@ -94,5 +98,8 @@ public class ProductController {
     boolean deleteProduct(int idOfProduct) throws SQLException {
         stockController.deleteProduct(idOfProduct);
         return productService.deleteProduct(idOfProduct);
+    }
+    public boolean  validateProductByIdAndCategory(int productID,String category) throws SQLException,ObjectNotFound {
+        return productService.validateProductByIdAndCategory(productID,category);
     }
 }

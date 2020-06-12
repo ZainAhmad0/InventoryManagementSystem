@@ -11,11 +11,12 @@ import java.text.MessageFormat;
 public class ProductDAOImpl implements ProductDAO{
     private static final String CREATE = "INSERT INTO InventoryManagementSystem.Products\n" +
             "(Product_Name, Sales_Price, Purchase_Price, Category)\n" +
-            "VALUES(''{0}'', ''{1}'', ''{2}'', ''{3}'');\n";
+            "VALUES(''{0}'',{1}, {2}, ''{3}'');\n";
     private  static final String FIND_BY_NAME = "SELECT * FROM InventoryManagementSystem.Products WHERE Product_Name = ''{0}''";
     private  static final String FIND_NUMBER_OF_ROWS = "SELECT COUNT(*)  from InventoryManagementSystem.{0};";
     private  static final String FIND_PRODUCTS = "SELECT * from InventoryManagementSystem.{0};";
     private  static final String FIND_PRODUCTS_BY_CATEGORY = "SELECT * from InventoryManagementSystem.Products WHERE Category = ''{0}'';";
+    private  static final String FIND_PRODUCT_BY_CATEGORY_AND_PRODUCT_ID = "SELECT * from InventoryManagementSystem.Products WHERE Category = ''{0}'' AND Product_Id = {1};";
     private static final String update ="UPDATE InventoryManagementSystem.Products\n" +
             "SET Product_Name=''{0}'', Sales_Price= {1}, Purchase_Price= {2}, Category=''{3}''\n" +
             "WHERE Product_Id= {4} ;\n";
@@ -24,7 +25,7 @@ public class ProductDAOImpl implements ProductDAO{
     public ProductDTO addProduct(ProductDTO product) throws SQLException {
         Connection conn = DB.connectDB();
         String insertQuery = MessageFormat.format(CREATE, product.getProductName(),
-        product.getSalesPrice(),product.getPurchasePrice(),product.getCategory());
+        product.getSalesPrice().toString(),product.getPurchasePrice().toString(),product.getCategory());
         PreparedStatement statement = conn.prepareStatement(insertQuery);
         int count = statement.executeUpdate();
         return product;
@@ -125,6 +126,18 @@ public class ProductDAOImpl implements ProductDAO{
             throw  new ObjectNotFound("Invalid Product Id Entered...");
         }
         return true;
+    }
+
+    @Override
+    public boolean validateProductByIdAndCategory(int productID, String category) throws SQLException,ObjectNotFound{
+        String findQuery = MessageFormat.format(FIND_PRODUCT_BY_CATEGORY_AND_PRODUCT_ID,category,productID);
+        Connection conn = DB.connectDB();
+        PreparedStatement statement = conn.prepareStatement(findQuery);
+        ResultSet result = statement.executeQuery();
+        if(result.next())
+        return true;
+        else
+            throw new ObjectNotFound("Invalid Product Id : " + productID);
     }
 
 }
