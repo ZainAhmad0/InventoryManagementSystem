@@ -1,21 +1,30 @@
 package Sales;
 
 import Product.ProductController;
+import Product.ProductDAOImpl;
 import exception.ObjectNotFound;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SalesServiceImpl implements SalesService {
-    private ProductController productController = new ProductController();
     private SalesDAO salesDAO = new SalesDAOImpl();
-    private SalesController salesController = new SalesController();
+    private ProductDAOImpl productDAO = new ProductDAOImpl();
+    private Integer salesID;
+
 
     @Override
-    public void buyProducts(ArrayList<Integer> products, ArrayList<Integer> quantity, String category,String username) throws SQLException {
+    public void addProductRecord(SalesDTO salesDTO, String username) throws SQLException {
+
+        salesDAO.addProductRecord(salesDTO.getProducts(),salesDTO.getProductQuantity(),username);
+    }
+
+    @Override
+    public SalesDTO buyProducts(ArrayList<Integer> products, ArrayList<Integer> quantity, String category) throws SQLException {
         for (int i = 0; i < products.size(); i++) {
             try {
-                productController.validateProductByIdAndCategory(products.get(i), category);
+                productDAO.validateProductByIdAndCategory(products.get(i), category);
             } catch (ObjectNotFound e) {
                 System.out.println(e.getMessage());
                 System.out.println("Product id : " + products.get(i) + " Discarded from products list..");
@@ -23,12 +32,9 @@ public class SalesServiceImpl implements SalesService {
                 quantity.remove(i);
             }
         }
-        for (int i = 0; i < products.size(); i++) {
-            System.out.println(products.get(i));
-            System.out.println(quantity.get(i));
-        }
-
-       // salesDAO.buyProducts(products, quantity,username);
-       // salesController.generateReceipt(products, quantity,username);
+        SalesDTO salesDTO = new SalesDTO();
+        salesDTO.setProducts(products);
+        salesDTO.setProductQuantity(quantity);
+        return salesDTO;
     }
 }
