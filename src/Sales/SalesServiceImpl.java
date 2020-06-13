@@ -12,33 +12,31 @@ public class SalesServiceImpl implements SalesService {
     private SalesDAO salesDAO = new SalesDAOImpl();
     private ProductDAOImpl productDAO = new ProductDAOImpl();
     private Integer salesID;
-    private ArrayList<Integer> temp = new ArrayList<Integer>();
+    private ArrayList<SalesProductDTO> temp = new ArrayList<SalesProductDTO>();
+    SalesProductDTO salesProductDTO = new SalesProductDTO();
 
 
     @Override
     public void addProductRecord(SalesDTO salesDTO, String username) throws SQLException {
-        salesDAO.addProductRecord(salesDTO.getProducts(),salesDTO.getProductQuantity(),username);
+        salesDAO.addProductRecord(salesDTO, username);
     }
 
     @Override
-    public SalesDTO buyProducts(ArrayList<Integer> products, ArrayList<Integer> quantity, String category) throws SQLException {
-        for (int i = 0; i < products.size(); i++) {
+    public SalesDTO buyProducts(SalesDTO salesDTO, String category) throws SQLException {
+        for (int i = 0; i < salesDTO.getProductInfo().size(); i++) {
             try {
-                productDAO.validateProductByIdAndCategory(products.get(i), category);
+                productDAO.validateProductByIdAndCategory(salesDTO.getProductInfo().get(i).getProductID(), category);
             } catch (ObjectNotFound e) {
                 System.out.println(e.getMessage());
-                System.out.println("Product id : " + products.get(i) + " Discarded from Product list");
-                temp.add(products.get(i));
-
+                System.out.println("Product id : " + salesDTO.getProductInfo().get(i).getProductID() + " Discarded from Product list");
+                salesProductDTO.setProductID(salesDTO.getProductInfo().get(i).getProductID());
+                salesProductDTO.setQuantity(salesDTO.getProductInfo().get(i).getQuantity());
+                temp.add(salesProductDTO);
             }
         }
-        for(int i=0; i<temp.size(); i++){
-            products.remove(temp.get(i));
-            quantity.remove(temp.get(i));
+        for (int i = 0; i < temp.size(); i++) {
+            salesDTO.getProductInfo().remove(temp.get(i));
         }
-        SalesDTO salesDTO = new SalesDTO();
-        salesDTO.setProducts(products);
-        salesDTO.setProductQuantity(quantity);
         return salesDTO;
     }
 }

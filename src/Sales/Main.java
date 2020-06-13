@@ -13,9 +13,10 @@ public class Main {
 
 
     public static void main(String[] args) throws Exception {
+        productController.showProductsByCategory("Laptops");
         salesDTO = salesController.buyProducts("Zain");
-        salesDTO=salesController.validateProducts(salesDTO.getProducts(), salesDTO.getProductQuantity(), "Laptops");
-        barcodeController.createBarcode(salesDTO.getProducts());
+        salesDTO=salesController.validateProducts(salesDTO, "Laptops");
+        barcodeController.createBarcode(salesDTO);
         salesDTO= barcodeController.validateBarcodes(salesDTO);
         salesController.addProductRecord(salesDTO,"Zain");
     }

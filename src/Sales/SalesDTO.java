@@ -1,24 +1,17 @@
 package Sales;
+
 import java.util.ArrayList;
 
 public class SalesDTO {
-    private  ArrayList<Integer> products = new ArrayList<Integer>();
-    private  ArrayList<Integer> productQuantity = new ArrayList<Integer>();
+    private ArrayList<SalesProductDTO> productInfo = new ArrayList<SalesProductDTO>();
 
-    public void setProducts(ArrayList<Integer> products) {
-        this.products = products;
+    public ArrayList<SalesProductDTO> getProductInfo() {
+        return productInfo;
     }
 
-    public  void setProductQuantity(ArrayList<Integer> productQuantity) {
-        this.productQuantity = productQuantity;
+    public void setProductInfo(ArrayList<SalesProductDTO> productInfo) {
+        this.productInfo = productInfo;
     }
 
-    public  ArrayList<Integer> getProducts() {
-        return products;
-    }
-
-    public  ArrayList<Integer> getProductQuantity() {
-        return productQuantity;
-    }
 
 }

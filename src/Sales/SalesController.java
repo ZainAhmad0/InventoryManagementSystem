@@ -11,14 +11,14 @@ import java.util.Scanner;
 
 public class SalesController {
     private Scanner obj = new Scanner(System.in);
-    private ProductController productController = new ProductController();
     private int productId, quantity;
-    private ArrayList<Integer> products = new ArrayList<Integer>();
-    private ArrayList<Integer> productQuantity = new ArrayList<Integer>();
     private SalesDTO salesDTO = new SalesDTO();
     private boolean checker = true;
-    private  SalesService salesService = new SalesServiceImpl();
+    private ArrayList<SalesProductDTO> productInfo = new ArrayList<SalesProductDTO>();
+//    private SalesProductDTO salesProductDTO = new SalesProductDTO();
+    private SalesService salesService = new SalesServiceImpl();
     private int choice;
+    private int i = 0;
 
 
     SalesDTO buyProducts(String username) throws Exception {
@@ -27,22 +27,26 @@ public class SalesController {
         System.out.println("3: Men Clothes");
         // choice would be entered by the user here.
         while (checker) {
-            productController.showProductsByCategory("Laptops");
             System.out.print("Enter product id : ");
             productId = obj.nextInt();
             System.out.print("Enter Quantity : ");
             quantity = obj.nextInt();
             boolean checker1 = true;
-            for (int i = 0; i < products.size(); i++) {
-                if (products.get(i) == productId) {
-                    productQuantity.set(i, productQuantity.get(i) + quantity);
+            for (i = 0; i < productInfo.size(); i++) {
+                if (productInfo.get(i).getProductID() == productId) {
+                    SalesProductDTO salesProductDTO = new SalesProductDTO();
+                    salesProductDTO.setProductID(productInfo.get(i).getProductID());
+                    salesProductDTO.setQuantity(productInfo.get(i).getQuantity() + quantity);
+                    productInfo.set(i, salesProductDTO);
                     checker1 = false;
                     break;
                 }
             }
             if (checker1) {
-                products.add(productId);
-                productQuantity.add(quantity);
+                SalesProductDTO salesProductDTO = new SalesProductDTO();
+                salesProductDTO.setQuantity(quantity);
+                salesProductDTO.setProductID(productId);
+                productInfo.add(salesProductDTO);
             }
             System.out.println("Product Added To Cart Successfully ... ");
             System.out.println("1: Checkout");
@@ -55,10 +59,10 @@ public class SalesController {
                     break;
                 }
                 case 2: {
-                    System.out.println("********** Current Cart **************");
+                    System.out.println("**********  Current Cart  **************");
                     System.out.println("Product ID                  Quantity");
-                    for (int i = 0; i < products.size(); i++) {
-                        System.out.println(products.get(i) + "                        " + productQuantity.get(i));
+                    for (int i = 0; i < productInfo.size(); i++) {
+                        System.out.println(productInfo.get(i).getProductID() + "                              " + productInfo.get(i).getQuantity());
                     }
                     break;
                 }
@@ -72,16 +76,16 @@ public class SalesController {
                 }
             }
         }
-        salesDTO.setProductQuantity(productQuantity);
-        salesDTO.setProducts(products);
+        salesDTO.setProductInfo(productInfo);
         return salesDTO;
     }
-    public SalesDTO validateProducts(ArrayList<Integer> products, ArrayList<Integer> productQuantity, String category) throws SQLException {
-        return salesService.buyProducts(products,productQuantity,category);
+
+    public SalesDTO validateProducts(SalesDTO salesDTO, String category) throws SQLException {
+        return salesService.buyProducts(salesDTO, category);
     }
 
     public void addProductRecord(SalesDTO salesDTO, String username) throws SQLException {
-        salesService.addProductRecord(salesDTO,username);
+        salesService.addProductRecord(salesDTO, username);
     }
 
     public void generateReceipt(ArrayList<Integer> products, ArrayList<Integer> productQuantity, String username) {
