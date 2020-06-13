@@ -52,7 +52,6 @@ public class SalesController {
             switch (choice) {
                 case 1: {
                     checker = false;
-                    System.out.println("Product Barcodes Generated Successfully");
                     break;
                 }
                 case 2: {
@@ -77,13 +76,12 @@ public class SalesController {
         salesDTO.setProducts(products);
         return salesDTO;
     }
-    public SalesDTO buyProductsAfterBarcodeValidation(ArrayList<Integer> products, ArrayList<Integer> productQuantity, String category) throws SQLException {
+    public SalesDTO validateProducts(ArrayList<Integer> products, ArrayList<Integer> productQuantity, String category) throws SQLException {
         return salesService.buyProducts(products,productQuantity,category);
     }
 
     public void addProductRecord(SalesDTO salesDTO, String username) throws SQLException {
         salesService.addProductRecord(salesDTO,username);
-
     }
 
     public void generateReceipt(ArrayList<Integer> products, ArrayList<Integer> productQuantity, String username) {

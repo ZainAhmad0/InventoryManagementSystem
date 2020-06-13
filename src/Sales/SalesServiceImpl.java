@@ -12,11 +12,11 @@ public class SalesServiceImpl implements SalesService {
     private SalesDAO salesDAO = new SalesDAOImpl();
     private ProductDAOImpl productDAO = new ProductDAOImpl();
     private Integer salesID;
+    private ArrayList<Integer> temp = new ArrayList<Integer>();
 
 
     @Override
     public void addProductRecord(SalesDTO salesDTO, String username) throws SQLException {
-
         salesDAO.addProductRecord(salesDTO.getProducts(),salesDTO.getProductQuantity(),username);
     }
 
@@ -27,10 +27,14 @@ public class SalesServiceImpl implements SalesService {
                 productDAO.validateProductByIdAndCategory(products.get(i), category);
             } catch (ObjectNotFound e) {
                 System.out.println(e.getMessage());
-                System.out.println("Product id : " + products.get(i) + " Discarded from products list..");
-                products.remove(i);
-                quantity.remove(i);
+                System.out.println("Product id : " + products.get(i) + " Discarded from Product list");
+                temp.add(products.get(i));
+
             }
+        }
+        for(int i=0; i<temp.size(); i++){
+            products.remove(temp.get(i));
+            quantity.remove(temp.get(i));
         }
         SalesDTO salesDTO = new SalesDTO();
         salesDTO.setProducts(products);
