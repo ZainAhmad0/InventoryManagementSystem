@@ -18,7 +18,7 @@ public class SalesDAOImpl implements SalesDAO {
             "(Sales_ID, Customer_Username, Product_ID, Quantity, Purchase_Date)\n" +
             "VALUES({0},''{1}'',{2},{3},''{4}'');";
     private Random random = new Random();
-    private final int upperBound = 400000;
+    private final int upperBound = 500000;
     private Integer salesID;
 
     @Override

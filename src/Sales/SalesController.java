@@ -15,10 +15,8 @@ public class SalesController {
     private SalesDTO salesDTO = new SalesDTO();
     private boolean checker = true;
     private ArrayList<SalesProductDTO> productInfo = new ArrayList<SalesProductDTO>();
-//    private SalesProductDTO salesProductDTO = new SalesProductDTO();
     private SalesService salesService = new SalesServiceImpl();
     private int choice;
-    private int i = 0;
 
 
     SalesDTO buyProducts(String username) throws Exception {
@@ -32,7 +30,7 @@ public class SalesController {
             System.out.print("Enter Quantity : ");
             quantity = obj.nextInt();
             boolean checker1 = true;
-            for (i = 0; i < productInfo.size(); i++) {
+            for (int i = 0; i < productInfo.size(); i++) {
                 if (productInfo.get(i).getProductID() == productId) {
                     SalesProductDTO salesProductDTO = new SalesProductDTO();
                     salesProductDTO.setProductID(productInfo.get(i).getProductID());

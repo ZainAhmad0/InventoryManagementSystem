@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class BarcodeController {
     private Scanner obj = new Scanner(System.in);
     private ArrayList<SalesProductDTO> tempList = new ArrayList<SalesProductDTO>();
-    SalesProductDTO salesProductDTO = new SalesProductDTO();
+
 
 
     public void createBarcode(SalesDTO salesDTO) throws Exception {
@@ -33,6 +33,7 @@ public class BarcodeController {
             System.out.print("Enter Product Id in Sequence By Scanning Barcode : ");
             temp = obj.nextInt();
             if (temp == salesDTO.getProductInfo().get(i).getProductID()) {
+                SalesProductDTO salesProductDTO = new SalesProductDTO();
                 salesProductDTO.setProductID(temp);
                 salesProductDTO.setQuantity(salesDTO.getProductInfo().get(i).getQuantity());
                 tempList.add(salesProductDTO);

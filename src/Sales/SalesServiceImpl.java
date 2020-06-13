@@ -11,9 +11,7 @@ import java.util.Random;
 public class SalesServiceImpl implements SalesService {
     private SalesDAO salesDAO = new SalesDAOImpl();
     private ProductDAOImpl productDAO = new ProductDAOImpl();
-    private Integer salesID;
-    private ArrayList<SalesProductDTO> temp = new ArrayList<SalesProductDTO>();
-    SalesProductDTO salesProductDTO = new SalesProductDTO();
+    private ArrayList<SalesProductDTO> tempProducts = new ArrayList<SalesProductDTO>();
 
 
     @Override
@@ -26,17 +24,16 @@ public class SalesServiceImpl implements SalesService {
         for (int i = 0; i < salesDTO.getProductInfo().size(); i++) {
             try {
                 productDAO.validateProductByIdAndCategory(salesDTO.getProductInfo().get(i).getProductID(), category);
+                SalesProductDTO salesProductDTO = new SalesProductDTO();
+                salesProductDTO.setProductID(salesDTO.getProductInfo().get(i).getProductID());
+                salesProductDTO.setQuantity(salesDTO.getProductInfo().get(i).getQuantity());
+                tempProducts.add(salesProductDTO);
             } catch (ObjectNotFound e) {
                 System.out.println(e.getMessage());
                 System.out.println("Product id : " + salesDTO.getProductInfo().get(i).getProductID() + " Discarded from Product list");
-                salesProductDTO.setProductID(salesDTO.getProductInfo().get(i).getProductID());
-                salesProductDTO.setQuantity(salesDTO.getProductInfo().get(i).getQuantity());
-                temp.add(salesProductDTO);
             }
         }
-        for (int i = 0; i < temp.size(); i++) {
-            salesDTO.getProductInfo().remove(temp.get(i));
-        }
+        salesDTO.setProductInfo(tempProducts);
         return salesDTO;
     }
 }
