@@ -47,31 +47,39 @@ public class SalesServiceImpl implements SalesService {
     public SalesDTO validateProductInStock(SalesDTO salesDTO) throws SQLException {
         ArrayList<StockDTO> stockDTOS = new ArrayList<StockDTO>();
         stockDTOS = stockDAO.getStock();
-        for (int i = 0; i < stockDTOS.size(); i++) {
-            if (salesDTO.getProductInfo().get(i).getProductID() == stockDTOS.get(i).getProductID()) {
-                if ((stockDTOS.get(i).getItemsInStock() - salesDTO.getProductInfo().get(i).getQuantity()) >= 0) {
-                    stockDTOS.get(i).setItemsInStock((stockDTOS.get(i).getItemsInStock() - salesDTO.getProductInfo().get(i).getQuantity()));
-                } else {
-                    System.out.println();
-                    System.out.println("Product ID : " + salesDTO.getProductInfo().get(i).getProductID());
-                    System.out.println("Quantity Available In Stock : " + stockDTOS.get(i).getItemsInStock());
-                    System.out.println("Quantity Entered : " + salesDTO.getProductInfo().get(i).getQuantity());
-                    int quantity;
-                    System.out.println("Please Re Enter Quantity (Should be Equal Or less than Stock Available) : ");
-                    quantity = obj.nextInt();
-                    if ((stockDTOS.get(i).getItemsInStock() - quantity) >= 0) {
-                        stockDTOS.get(i).setItemsInStock((stockDTOS.get(i).getItemsInStock() - quantity));
+        for (int j = 0; j < salesDTO.getProductInfo().size(); j++) {
+            for (int i = 0; i < stockDTOS.size(); i++) {
+                if (salesDTO.getProductInfo().get(j).getProductID() == stockDTOS.get(i).getProductID()) {
+                    if ((stockDTOS.get(i).getItemsInStock() - salesDTO.getProductInfo().get(j).getQuantity()) >= 0) {
+                        stockDTOS.get(i).setItemsInStock((stockDTOS.get(i).getItemsInStock() - salesDTO.getProductInfo().get(j).getQuantity()));
+                        break;
                     } else {
-                        quantity = stockDTOS.get(i).getItemsInStock();
-                        System.out.println("By Default Now Quantity = " + (stockDTOS.get(i).getItemsInStock()));
+                        System.out.println();
+                        System.out.println("Product ID : " + salesDTO.getProductInfo().get(j).getProductID());
+                        System.out.println("Quantity Available In Stock : " + stockDTOS.get(i).getItemsInStock());
+                        System.out.println("Quantity Entered : " + salesDTO.getProductInfo().get(j).getQuantity());
+                        int quantity;
+                        System.out.print("Please Re Enter Quantity (Should be Equal Or less than Stock Available) : ");
+                        quantity = obj.nextInt();
                         SalesProductDTO salesProductDTO = new SalesProductDTO();
-                        salesProductDTO.setQuantity(quantity);
-                        salesProductDTO.setProductID(salesDTO.getProductInfo().get(i).getProductID());
-                        salesDTO.getProductInfo().set(i, salesProductDTO);
-                        stockDTOS.get(i).setItemsInStock((stockDTOS.get(i).getItemsInStock() - quantity));
-                    }
-                }
+                        if ((stockDTOS.get(i).getItemsInStock() - quantity) >= 0) {
+                            stockDTOS.get(i).setItemsInStock((stockDTOS.get(i).getItemsInStock() - quantity));
+                            salesProductDTO.setProductID(salesDTO.getProductInfo().get(j).getProductID());
+                            salesProductDTO.setQuantity(quantity);
+                            salesDTO.getProductInfo().set(j, salesProductDTO);
 
+                        } else {
+                            quantity = stockDTOS.get(i).getItemsInStock();
+                            System.out.print("By Default Now Quantity = " + (stockDTOS.get(i).getItemsInStock()));
+                            salesProductDTO.setQuantity(quantity);
+                            salesProductDTO.setProductID(salesDTO.getProductInfo().get(j).getProductID());
+                            salesDTO.getProductInfo().set(j, salesProductDTO);
+                            stockDTOS.get(i).setItemsInStock((stockDTOS.get(i).getItemsInStock() - quantity));
+                        }
+                        break;
+                    }
+
+                }
             }
         }
         stockDAO.updateStock(stockDTOS);
