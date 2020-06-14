@@ -18,6 +18,7 @@ public class Main {
         salesDTO=salesController.validateProducts(salesDTO, "Laptops");
         barcodeController.createBarcode(salesDTO);
         salesDTO= barcodeController.validateBarcodes(salesDTO);
+        salesDTO=salesController.validateProductInStock(salesDTO);
         salesController.addProductRecord(salesDTO,"Zain");
     }
 }

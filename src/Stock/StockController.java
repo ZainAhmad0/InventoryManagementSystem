@@ -15,4 +15,8 @@ public class StockController {
     public void deleteProduct(int idOfProduct) throws SQLException {
         stockService.deleteProduct(idOfProduct);
     }
+
+    public void getStock() throws SQLException {
+        stockService.getStock();
+    }
 }

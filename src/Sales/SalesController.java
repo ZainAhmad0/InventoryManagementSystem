@@ -82,6 +82,10 @@ public class SalesController {
         return salesService.buyProducts(salesDTO, category);
     }
 
+    public SalesDTO validateProductInStock(SalesDTO salesDTO) throws SQLException {
+        return salesService.validateProductInStock(salesDTO);
+    }
+
     public void addProductRecord(SalesDTO salesDTO, String username) throws SQLException {
         salesService.addProductRecord(salesDTO, username);
     }
