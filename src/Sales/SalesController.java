@@ -4,6 +4,8 @@ import java.util.*;
 
 import Barcode.BarcodeController;
 import Product.ProductController;
+import Product.ProductDTO;
+import Product.ProductServiceImp;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,6 +19,9 @@ public class SalesController {
     private ArrayList<SalesProductDTO> productInfo = new ArrayList<SalesProductDTO>();
     private SalesService salesService = new SalesServiceImpl();
     private int choice;
+    private Calendar calObj = Calendar.getInstance();
+    private ProductServiceImp productServiceImp = new ProductServiceImp();
+    private Double totalBill;
 
 
     SalesDTO buyProducts(String username) throws Exception {
@@ -90,7 +95,25 @@ public class SalesController {
         salesService.addProductRecord(salesDTO, username);
     }
 
-    public void generateReceipt(ArrayList<Integer> products, ArrayList<Integer> productQuantity, String username) {
-
+    public void generateReceipt(SalesDTO salesDTO, String username) throws SQLException {
+        totalBill=0.0;
+        System.out.println();
+        System.out.println("                                    MFS Shopping Mall");
+        System.out.println();
+        System.out.println("Current Date And Time : "+calObj.getTime());
+        ProductDTO[] productDTOS = productServiceImp.showTable("Products");
+        System.out.println("Product Id               Quantity x Price Per Piece");
+        for (int i=0; i<salesDTO.getProductInfo().size(); i++){
+            for (int j=0; j<productDTOS.length; j++){
+                if(salesDTO.getProductInfo().get(i).getProductID()==productDTOS[j].getProductID()){
+                    System.out.println(salesDTO.getProductInfo().get(i).getProductID()+"                        "+salesDTO.getProductInfo().get(i).getQuantity()+" x "+productDTOS[j].getSalesPrice() + " = " + (salesDTO.getProductInfo().get(i).getQuantity()*productDTOS[j].getSalesPrice()));
+                    totalBill=totalBill+(salesDTO.getProductInfo().get(i).getQuantity()*productDTOS[j].getSalesPrice());
+                    break;
+                }
+            }
+        }
+        System.out.println();
+        System.out.println("Your Total Bill Is : "+ totalBill);
+        System.out.println(username + ", Thank you for shopping");
     }
 }

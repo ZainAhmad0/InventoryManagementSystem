@@ -20,4 +20,9 @@ public class StockServiceImpl implements StockService {
     public ArrayList<StockDTO> getStock() throws SQLException {
         return stockDAO.getStock();
     }
+
+    @Override
+    public void updateStock(ArrayList<StockDTO> stockDTOS) throws SQLException {
+        stockDAO.updateStock(stockDTOS);
+    }
 }
