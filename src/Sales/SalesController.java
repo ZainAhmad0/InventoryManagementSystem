@@ -1,5 +1,6 @@
 package Sales;
 
+import java.sql.ResultSet;
 import java.util.*;
 
 import Barcode.BarcodeController;
@@ -115,5 +116,22 @@ public class SalesController {
         System.out.println();
         System.out.println("Your Total Bill Is : "+ totalBill);
         System.out.println(username + ", Thank you for shopping");
+    }
+
+    public boolean showPreviousSales(String userName) throws SQLException {
+        ResultSet resultSet =  salesService.getPreviousSales(userName);
+        int i=1;
+        if(resultSet.next()){
+            System.out.println(" Product ID                 Quantity                     Purchase Date and time");
+            do {
+                System.out.println((i++)+".   "+resultSet.getInt("Product_ID")+"                       "+resultSet.getInt("Quantity")+"                            "+resultSet.getString("Purchase_Date"));
+
+            }while (resultSet.next());
+            return true;
+        }
+        else {
+            return false;
+        }
+
     }
 }

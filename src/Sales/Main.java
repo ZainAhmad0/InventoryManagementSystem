@@ -21,5 +21,13 @@ public class Main {
         salesDTO=salesController.validateProductInStock(salesDTO);
         salesController.addProductRecord(salesDTO,"Zain");
         salesController.generateReceipt(salesDTO,"Zain Ahmad");
+//        productController.showProductsByCategory("Laptops");
+//        salesDTO = salesController.buyProducts("Zain");
+//        salesDTO=salesController.validateProducts(salesDTO, "Laptops");
+//        barcodeController.createBarcode(salesDTO);
+//        salesDTO= barcodeController.validateBarcodes(salesDTO);
+//        salesDTO=salesController.validateProductInStock(salesDTO);
+//        salesController.addProductRecord(salesDTO,"Zain");
+        // salesController.showPreviousSales("Zain");
     }
 }
