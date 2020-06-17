@@ -13,12 +13,13 @@ public class Main {
 
 
     public static void main(String[] args) throws Exception {
-        productController.showProductsByCategory("Laptops");
-        salesDTO = salesController.buyProducts("Zain");
-        salesDTO=salesController.validateProducts(salesDTO, "Laptops");
-        barcodeController.createBarcode(salesDTO);
-        salesDTO= barcodeController.validateBarcodes(salesDTO);
-        salesDTO=salesController.validateProductInStock(salesDTO);
-        salesController.addProductRecord(salesDTO,"Zain");
+//        productController.showProductsByCategory("Laptops");
+//        salesDTO = salesController.buyProducts("Zain");
+//        salesDTO=salesController.validateProducts(salesDTO, "Laptops");
+//        barcodeController.createBarcode(salesDTO);
+//        salesDTO= barcodeController.validateBarcodes(salesDTO);
+//        salesDTO=salesController.validateProductInStock(salesDTO);
+//        salesController.addProductRecord(salesDTO,"Zain");
+        // salesController.showPreviousSales("Zain");
     }
 }

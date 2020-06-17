@@ -4,6 +4,7 @@ import database.DB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -17,6 +18,7 @@ public class SalesDAOImpl implements SalesDAO {
     private static final String INSERT_PRODUCTS = "INSERT INTO InventoryManagementSystem.Sales\n" +
             "(Sales_ID, Customer_Username, Product_ID, Quantity, Purchase_Date)\n" +
             "VALUES({0},''{1}'',{2},{3},''{4}'');";
+    private static final String GET_PREVIOUS_SALES = "SELECT * FROM InventoryManagementSystem.Sales where Customer_Username = ''{0}'';";
     private Random random = new Random();
     private final int upperBound = 500000;
     private Integer salesID;
@@ -31,5 +33,14 @@ public class SalesDAOImpl implements SalesDAO {
             PreparedStatement statement = conn.prepareStatement(insertQuery);
             statement.executeUpdate();
         }
+    }
+
+    @Override
+    public ResultSet getPreviousSales(String userName) throws SQLException {
+        Connection conn = DB.connectDB();
+        String findQuery = MessageFormat.format(GET_PREVIOUS_SALES,userName);
+        PreparedStatement statement = conn.prepareStatement(findQuery);
+        ResultSet result = statement.executeQuery();
+        return result;
     }
 }

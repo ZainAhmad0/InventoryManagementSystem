@@ -7,6 +7,7 @@ import Stock.StockDAOImpl;
 import Stock.StockDTO;
 import exception.ObjectNotFound;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -84,5 +85,10 @@ public class SalesServiceImpl implements SalesService {
         }
         stockDAO.updateStock(stockDTOS);
         return salesDTO;
+    }
+
+    @Override
+    public ResultSet getPreviousSales(String userName) throws SQLException {
+        return salesDAO.getPreviousSales(userName);
     }
 }

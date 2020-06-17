@@ -1,5 +1,6 @@
 package Stock;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StockController {
@@ -18,5 +19,9 @@ public class StockController {
 
     public void getStock() throws SQLException {
         stockService.getStock();
+    }
+
+    public void updateStock(ArrayList<StockDTO> stockDTOS) throws SQLException {
+        stockService.updateStock(stockDTOS);
     }
 }

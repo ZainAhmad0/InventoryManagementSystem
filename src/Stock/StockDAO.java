@@ -8,4 +8,5 @@ public interface StockDAO {
     boolean deleteProduct(int idOfProduct) throws SQLException;
     public ArrayList<StockDTO> getStock() throws SQLException;
     public void updateStock(ArrayList<StockDTO> stockDTOS) throws SQLException;
+
 }
