@@ -88,7 +88,7 @@ public class ProductController {
         }
     }
 
-    private int getNumberOfRows(String tableName) throws SQLException {
+    public int getNumberOfRows(String tableName) throws SQLException {
         return productService.getNumOfProducts(tableName);
     }
 
@@ -102,4 +102,5 @@ public class ProductController {
     public boolean  validateProductByIdAndCategory(int productID,String category) throws SQLException,ObjectNotFound {
         return productService.validateProductByIdAndCategory(productID,category);
     }
+
 }

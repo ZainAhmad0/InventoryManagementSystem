@@ -19,6 +19,7 @@ public class SalesDAOImpl implements SalesDAO {
             "(Sales_ID, Customer_Username, Product_ID, Quantity, Purchase_Date)\n" +
             "VALUES({0},''{1}'',{2},{3},''{4}'');";
     private static final String GET_PREVIOUS_SALES = "SELECT * FROM InventoryManagementSystem.Sales where Customer_Username = ''{0}'';";
+    private static final String GET_SALES = "SELECT * FROM InventoryManagementSystem.Sales;";
     private Random random = new Random();
     private final int upperBound = 500000;
     private Integer salesID;
@@ -40,6 +41,14 @@ public class SalesDAOImpl implements SalesDAO {
         Connection conn = DB.connectDB();
         String findQuery = MessageFormat.format(GET_PREVIOUS_SALES,userName);
         PreparedStatement statement = conn.prepareStatement(findQuery);
+        ResultSet result = statement.executeQuery();
+        return result;
+    }
+
+    @Override
+    public ResultSet calculateProfit() throws SQLException {
+        Connection conn = DB.connectDB();
+        PreparedStatement statement = conn.prepareStatement(GET_SALES);
         ResultSet result = statement.executeQuery();
         return result;
     }

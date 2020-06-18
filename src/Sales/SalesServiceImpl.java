@@ -102,4 +102,9 @@ public class SalesServiceImpl implements SalesService {
     public ResultSet getPreviousSales(String userName) throws SQLException {
         return salesDAO.getPreviousSales(userName);
     }
+
+    @Override
+    public ResultSet calculateProfit() throws SQLException {
+        return salesDAO.calculateProfit();
+    }
 }

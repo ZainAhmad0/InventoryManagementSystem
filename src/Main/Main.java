@@ -2,13 +2,16 @@ package Main;
 
 import Barcode.BarcodeController;
 import Product.ProductController;
+import Product.ProductDTO;
+import Product.ProductService;
+import Product.ProductServiceImp;
 import Sales.SalesController;
 import Sales.SalesDTO;
 import Stock.StockController;
 import Stock.StockDTO;
 import User.UserController;
 import exception.ObjectNotFound;
-
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -22,6 +25,8 @@ public class Main {
     private static BarcodeController barcodeController = new BarcodeController();
     private static SalesDTO salesDTO = new SalesDTO();
     private static StockController stockController = new StockController();
+    private static Double profit;
+    private static ProductService productService = new ProductServiceImp();
 
 
     public static void main(String[] args) throws Exception {
@@ -144,6 +149,7 @@ public class Main {
                 if (salesDTO.getProductInfo().size() > 0) {
                     salesController.addProductRecord(salesDTO, username);
                     salesController.generateReceipt(salesDTO, username);
+                    System.exit(0);
                 } else {
                     System.out.println("Thank you");
                     System.out.println();
@@ -151,7 +157,9 @@ public class Main {
                 }
 
             } else if (choice == 2) {
+                System.out.println();
                 salesController.showPreviousSales(username);
+                System.out.println();
             } else if (choice == 3) {
                 return;
             } else {
@@ -255,6 +263,23 @@ public class Main {
                     break;
                 }
                 case 'e': {
+                    ProductDTO[] products =new ProductDTO[productController.getNumberOfRows("Products")];
+                    products = productService.showTable("Products");
+                    ResultSet resultSet = salesController.calculateProfit();
+                    Double PP,SP;
+                    profit = 0.0;
+                    while (resultSet.next()){
+                        for(int i = 0; i<products.length; i++){
+                            if(resultSet.getInt("Product_Id")==products[i].getProductID()){
+                                PP=products[i].getPurchasePrice();
+                                SP=products[i].getSalesPrice();
+                                profit+=((SP-PP)*resultSet.getInt("Quantity"));
+                                break;
+                            }
+                        }
+                    }
+                    System.out.println();
+                    System.out.println("Total Profit Till Now is : "+profit);
                     break;
                 }
                 case 'f': {

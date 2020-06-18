@@ -120,7 +120,7 @@ public class SalesController {
         if(resultSet.next()){
             System.out.println(" Product ID                 Quantity                     Purchase Date and time");
             do {
-                System.out.println((i++)+".   "+resultSet.getInt("Product_ID")+"                       "+resultSet.getInt("Quantity")+"                            "+resultSet.getString("Purchase_Date"));
+                System.out.println((i++)+". "+resultSet.getInt("Product_ID")+"                         "+resultSet.getInt("Quantity")+"                           "+resultSet.getString("Purchase_Date"));
 
             }while (resultSet.next());
             return true;
@@ -129,5 +129,9 @@ public class SalesController {
             return false;
         }
 
+    }
+
+    public ResultSet calculateProfit() throws SQLException {
+        return salesService.calculateProfit();
     }
 }
