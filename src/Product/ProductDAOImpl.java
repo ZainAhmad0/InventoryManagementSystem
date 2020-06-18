@@ -52,9 +52,9 @@ public class ProductDAOImpl implements ProductDAO{
 
     @Override
     public ProductDTO updateProduct(ProductDTO product) throws SQLException {
-        String findQuery = MessageFormat.format(update,product.getProductName(),product.getSalesPrice(),product.getPurchasePrice(),product.getCategory(),product.getProductID());
+        String updateQuery = MessageFormat.format(update,product.getProductName(),product.getSalesPrice().toString(),product.getPurchasePrice().toString(),product.getCategory(),product.getProductID());
         Connection conn = DB.connectDB();
-        PreparedStatement statement = conn.prepareStatement(findQuery);
+        PreparedStatement statement = conn.prepareStatement(updateQuery);
         statement.executeUpdate();
         return product;
     }

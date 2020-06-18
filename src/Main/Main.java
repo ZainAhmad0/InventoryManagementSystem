@@ -100,7 +100,6 @@ public class Main {
         System.out.println();
         System.out.println("                        Login Successful  ");
         System.out.println();
-        System.out.println();
         return loginDTO;
     }
 
@@ -179,6 +178,7 @@ public class Main {
             switch (choice) {
                 case 'a': {
                     productController.addProduct();
+                    System.out.println("Product Added Successfully");
                     break;
                 }
                 case 'b': {
@@ -192,12 +192,15 @@ public class Main {
                     obj.nextLine();
                     if(choice1==1){
                         productController.updateProductName();
+                        System.out.println("Product Name Updated");
                     }
                     else if(choice1==2){
                         productController.updateProductSalesPrice();
+                        System.out.println("Product Sales Price Updated");
                     }
                     else if(choice1==3){
                         productController.updateProductCategory();
+                        System.out.println("Product Category Updated");
                     }
                     else if(choice1==4){
                         continue;
@@ -210,7 +213,7 @@ public class Main {
                 case 'c': {
                     userController.getRegisteredUser();
                     System.out.println();
-                    System.out.println("Enter Username : ");
+                    System.out.print("Enter Username : ");
                     String username1;
                     username1=obj.nextLine();
                     if(userController.deleteUser(username1)){
@@ -247,6 +250,7 @@ public class Main {
                         System.out.println();
                         System.out.println("1: Go back to main menu");
                         System.out.println("Press any other digit to update more stock");
+                        choice2=obj.nextInt();
                     }while (choice2!=1);
                     break;
                 }
@@ -258,7 +262,7 @@ public class Main {
                     System.out.println();
                     productController.showTable("Products");
                     System.out.println();
-                    System.out.println("Please Enter Product ID : ");
+                    System.out.print("Please Enter Product ID : ");
                     int productID = obj.nextInt();
                     try{
                         if(productController.deleteProduct(productID)){

@@ -32,7 +32,6 @@ public class ProductServiceImp implements ProductService {
                 result.setPurchasePrice(product.getPurchasePrice());
             }
         }
-
         productDAO.updateProduct(result);
         return result;
     }

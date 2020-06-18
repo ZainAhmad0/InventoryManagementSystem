@@ -10,8 +10,8 @@ public class Main {
          // obj.updateProductName();
        // obj.addProduct();
       // obj.showTable("Products");
-        obj.deleteProduct(5);
-        obj.showProductsByCategory("Mobiles");
+//        obj.deleteProduct(5);
+//        obj.showProductsByCategory("Mobiles");
         /*
         try{
             obj.deleteProduct(1);
@@ -29,6 +29,7 @@ public class Main {
 //        while(choice==0){
 //            obj.addProduct();
 //        }
+        obj.updateProductName();
 
     }
 }

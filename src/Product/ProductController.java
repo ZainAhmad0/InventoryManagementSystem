@@ -40,7 +40,7 @@ public class ProductController {
         }
     }
     public void updateProductName() throws SQLException {
-        System.out.print("Enter Product Name : ");
+        System.out.print("Enter Existing Product Name : ");
         productName=obj.nextLine();
         String newProductName = new String();
         System.out.print("Enter New Product Name : ");
@@ -71,7 +71,7 @@ public class ProductController {
     public void showTable(String tableName) throws SQLException {
         ProductDTO[] products=new ProductDTO[getNumberOfRows(tableName)];
         products=productService.showTable(tableName);
-        System.out.println("ID            Price          Category");
+        System.out.println("ID               Price               Category");
         for(int i=0; i<products.length; i++){
             System.out.println(products[i].getProductID()+"                  "+products[i].getSalesPrice()+"               "+products[i].getCategory());
         }
