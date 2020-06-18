@@ -25,11 +25,7 @@ public class SalesController {
     private Double totalBill;
 
 
-    SalesDTO buyProducts(String username) throws Exception {
-        System.out.println("1: Mobiles");
-        System.out.println("2: Laptops");
-        System.out.println("3: Men Clothes");
-        // choice would be entered by the user here.
+    public SalesDTO buyProducts(String username) throws Exception {
         while (checker) {
             System.out.print("Enter product id : ");
             productId = obj.nextInt();

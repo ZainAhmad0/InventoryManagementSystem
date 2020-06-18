@@ -8,5 +8,6 @@ public class Main {
         // obj.isUserValid(user)
         // obj.deleteUser("ehtesham");
         //obj.getRegisteredUser();
+        obj.getRegisteredUser();
     }
 }

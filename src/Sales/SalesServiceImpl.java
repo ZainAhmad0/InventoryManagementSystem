@@ -47,10 +47,16 @@ public class SalesServiceImpl implements SalesService {
     @Override
     public SalesDTO validateProductInStock(SalesDTO salesDTO) throws SQLException {
         ArrayList<StockDTO> stockDTOS = new ArrayList<StockDTO>();
+        ArrayList<Integer> removeProducts = new ArrayList<Integer>();
         stockDTOS = stockDAO.getStock();
         for (int j = 0; j < salesDTO.getProductInfo().size(); j++) {
             for (int i = 0; i < stockDTOS.size(); i++) {
-                if (salesDTO.getProductInfo().get(j).getProductID() == stockDTOS.get(i).getProductID()) {
+                if (salesDTO.getProductInfo().get(j).getProductID() == stockDTOS.get(i).getProductID() ) {
+                    if(stockDTOS.get(i).getItemsInStock()==0){
+                        System.out.println("Product ID : " + salesDTO.getProductInfo().get(j).getProductID() + " Not in stock, And removed from card");
+                        removeProducts.add(j);
+                        break;
+                    }
                     if ((stockDTOS.get(i).getItemsInStock() - salesDTO.getProductInfo().get(j).getQuantity()) >= 0) {
                         stockDTOS.get(i).setItemsInStock((stockDTOS.get(i).getItemsInStock() - salesDTO.getProductInfo().get(j).getQuantity()));
                         break;
@@ -82,6 +88,11 @@ public class SalesServiceImpl implements SalesService {
 
                 }
             }
+        }
+        int temp;
+        for(int i =0; i<removeProducts.size(); i++){
+            temp=removeProducts.get(i);
+            salesDTO.getProductInfo().remove(temp);
         }
         stockDAO.updateStock(stockDTOS);
         return salesDTO;

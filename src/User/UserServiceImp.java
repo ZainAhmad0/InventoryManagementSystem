@@ -41,11 +41,12 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public boolean isUserValid(String username, String password) throws Exception {
+    public boolean isUserValid(String username, String password, int type) throws Exception {
         UserDTO user = new UserDTO();
         if (!(isUserNameValid(username))) {
             user = getUser(username);
+            return user.getPassOfUser().equals(password)&&user.getUserType()==type;
         }
-        return user.getPassOfUser().equals(password);
+        return false;
     }
 }

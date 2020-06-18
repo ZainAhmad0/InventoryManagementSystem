@@ -10,6 +10,7 @@ public class Main {
          // obj.updateProductName();
        // obj.addProduct();
       // obj.showTable("Products");
+        obj.deleteProduct(5);
         obj.showProductsByCategory("Mobiles");
         /*
         try{
