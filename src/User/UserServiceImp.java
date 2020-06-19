@@ -1,4 +1,6 @@
 package User;
+
+import exception.ObjectNotFound;
 import exception.UserNotValid;
 
 import java.sql.SQLException;
@@ -28,7 +30,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public boolean deleteUser(String username) throws Exception {
-        if(!isUserNameValid(username)){
+        if (!isUserNameValid(username)) {
             userDAO.deleteUser(username);
             return true;
         }
@@ -41,11 +43,28 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public boolean changeInformation(UserDTO userDTO, String existingUsername) throws Exception {
+        UserDTO userDTO1 = userDAO.findByUserName(existingUsername);
+        if (userDTO.getPassOfUser() != null) {
+            userDTO1.setPassOfUser(userDTO.getPassOfUser());
+            userDAO.changeInformation(userDTO1, existingUsername);
+            return true;
+        } else if (!isUserNameValid(userDTO.getUserName())) {
+            userDTO1.setUserName(userDTO.getUserName());
+            userDAO.changeInformation(userDTO1, existingUsername);
+            return true;
+        } else {
+            throw new ObjectNotFound(userDTO.getUserName() + " Username Already Exists");
+        }
+
+    }
+
+    @Override
     public boolean isUserValid(String username, String password, int type) throws Exception {
         UserDTO user = new UserDTO();
         if (!(isUserNameValid(username))) {
             user = getUser(username);
-            return user.getPassOfUser().equals(password)&&user.getUserType()==type;
+            return user.getPassOfUser().equals(password) && user.getUserType() == type;
         }
         return false;
     }

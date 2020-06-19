@@ -60,4 +60,8 @@ Scanner obj = new Scanner(System.in);
             System.out.println((i+1)+" "+ users[i].getUserName() + "               " +users[i].getPassOfUser());
         }
     }
+
+    public boolean changeInformation(UserDTO userDTO,String existingUsername) throws Exception {
+        return userService.changeInformation(userDTO,existingUsername);
+    }
 }

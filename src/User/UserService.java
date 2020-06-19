@@ -9,4 +9,5 @@ public interface UserService {
     public UserDTO getUser(String userName) throws Exception;
     public boolean deleteUser(String username) throws Exception;
     UserDTO [] getRegisteredUser() throws SQLException;
+    public boolean changeInformation(UserDTO userDTO,String existingUsername) throws Exception;
 }

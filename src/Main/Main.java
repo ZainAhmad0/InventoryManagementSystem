@@ -10,7 +10,9 @@ import Sales.SalesDTO;
 import Stock.StockController;
 import Stock.StockDTO;
 import User.UserController;
+import User.UserDTO;
 import exception.ObjectNotFound;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -51,12 +53,12 @@ public class Main {
                 if (choice1 == 'x') {
                     loginDTO.setUserType(0);
                     loginDTO = signIn(loginDTO);
-                    userInterface(loginDTO.getUsername());
+                    userInterface(loginDTO);
                     continue;
                 } else if (choice1 == 'y') {
                     loginDTO.setUserType(1);
                     loginDTO = signIn(loginDTO);
-                    adminInterface();
+                    adminInterface(loginDTO);
                 } else {
                     System.out.println("Invalid choice Entered...");
                     System.exit(0);
@@ -69,7 +71,7 @@ public class Main {
                     System.out.println();
                     System.out.println();
                     loginDTO = signIn(loginDTO);
-                    userInterface(loginDTO.getUsername());
+                    userInterface(loginDTO);
                     continue;
                 }
                 System.out.println();
@@ -108,12 +110,14 @@ public class Main {
         return loginDTO;
     }
 
-    private static void userInterface(String username) throws Exception {
+    private static void userInterface(LoginDTO loginDTO) throws Exception {
         int choice;
+        String username = loginDTO.getUsername();
         do {
             System.out.println("1: Buy Products");
             System.out.println("2: View Previous Sales");
-            System.out.println("3: Logout");
+            System.out.println("3: Change Account Details");
+            System.out.println("4: Logout");
             System.out.println("Press any other digit to Logout and Exit");
             choice = obj.nextInt();
             if (choice == 1) {
@@ -161,16 +165,19 @@ public class Main {
                 salesController.showPreviousSales(username);
                 System.out.println();
             } else if (choice == 3) {
+                changeInformation(loginDTO);
+                continue;
+            } else if (choice == 4) {
                 return;
             } else {
                 System.exit(0);
             }
-        } while (choice == 1 || choice == 2);
+        } while (choice == 1 || choice == 2 || choice == 3);
     }
 
-    private static void adminInterface() throws Exception {
+    private static void adminInterface(LoginDTO loginDTO) throws Exception {
         char choice;
-        do{
+        do {
             System.out.println();
             System.out.println();
             System.out.println("a: Add new Product");
@@ -179,7 +186,8 @@ public class Main {
             System.out.println("d: Update Stock");
             System.out.println("e: View Total Profit");
             System.out.println("f: Delete Product");
-            System.out.println("g: Logout");
+            System.out.println("g: Change Account Information");
+            System.out.println("h: Logout");
             System.out.println("Press any other character to logout, and exit");
             choice = obj.next().charAt(0);
             obj.nextLine();
@@ -198,22 +206,18 @@ public class Main {
                     System.out.println("Press any other digit to Logout, and exit");
                     choice1 = obj.nextInt();
                     obj.nextLine();
-                    if(choice1==1){
+                    if (choice1 == 1) {
                         productController.updateProductName();
                         System.out.println("Product Name Updated");
-                    }
-                    else if(choice1==2){
+                    } else if (choice1 == 2) {
                         productController.updateProductSalesPrice();
                         System.out.println("Product Sales Price Updated");
-                    }
-                    else if(choice1==3){
+                    } else if (choice1 == 3) {
                         productController.updateProductCategory();
                         System.out.println("Product Category Updated");
-                    }
-                    else if(choice1==4){
+                    } else if (choice1 == 4) {
                         continue;
-                    }
-                    else{
+                    } else {
                         return;
                     }
                     break;
@@ -223,11 +227,10 @@ public class Main {
                     System.out.println();
                     System.out.print("Enter Username : ");
                     String username1;
-                    username1=obj.nextLine();
-                    if(userController.deleteUser(username1)){
-                        System.out.println("Username : "+username1+" Successfully deleted.");
-                    }
-                    else {
+                    username1 = obj.nextLine();
+                    if (userController.deleteUser(username1)) {
+                        System.out.println("Username : " + username1 + " Successfully deleted.");
+                    } else {
                         System.out.println("Invalid username entered.");
                         continue;
                     }
@@ -239,16 +242,16 @@ public class Main {
                     System.out.println();
                     stockController.displayStock();
                     System.out.println();
-                    int choice2=0;
+                    int choice2 = 0;
                     int productID;
                     int quantity;
-                    do{
+                    do {
                         ArrayList<StockDTO> stockDTOS = new ArrayList<StockDTO>();
                         StockDTO stockDTO = new StockDTO();
                         System.out.print("Enter Product Id : ");
-                        productID=obj.nextInt();
+                        productID = obj.nextInt();
                         System.out.print("Enter Quantity : ");
-                        quantity=obj.nextInt();
+                        quantity = obj.nextInt();
                         stockDTO.setItemsInStock(quantity);
                         stockDTO.setProductID(productID);
                         stockDTOS.add(stockDTO);
@@ -258,28 +261,28 @@ public class Main {
                         System.out.println();
                         System.out.println("1: Go back to main menu");
                         System.out.println("Press any other digit to update more stock");
-                        choice2=obj.nextInt();
-                    }while (choice2!=1);
+                        choice2 = obj.nextInt();
+                    } while (choice2 != 1);
                     break;
                 }
                 case 'e': {
-                    ProductDTO[] products =new ProductDTO[productController.getNumberOfRows("Products")];
+                    ProductDTO[] products = new ProductDTO[productController.getNumberOfRows("Products")];
                     products = productService.showTable("Products");
                     ResultSet resultSet = salesController.calculateProfit();
-                    Double PP,SP;
+                    Double PP, SP;
                     profit = 0.0;
-                    while (resultSet.next()){
-                        for(int i = 0; i<products.length; i++){
-                            if(resultSet.getInt("Product_Id")==products[i].getProductID()){
-                                PP=products[i].getPurchasePrice();
-                                SP=products[i].getSalesPrice();
-                                profit+=((SP-PP)*resultSet.getInt("Quantity"));
+                    while (resultSet.next()) {
+                        for (int i = 0; i < products.length; i++) {
+                            if (resultSet.getInt("Product_Id") == products[i].getProductID()) {
+                                PP = products[i].getPurchasePrice();
+                                SP = products[i].getSalesPrice();
+                                profit += ((SP - PP) * resultSet.getInt("Quantity"));
                                 break;
                             }
                         }
                     }
                     System.out.println();
-                    System.out.println("Total Profit Till Now is : "+profit);
+                    System.out.println("Total Profit Till Now is : " + profit);
                     break;
                 }
                 case 'f': {
@@ -289,19 +292,22 @@ public class Main {
                     System.out.println();
                     System.out.print("Please Enter Product ID : ");
                     int productID = obj.nextInt();
-                    try{
-                        if(productController.deleteProduct(productID)){
-                            System.out.println("Product Id : "+ productID + " deleted successfully");
+                    try {
+                        if (productController.deleteProduct(productID)) {
+                            System.out.println("Product Id : " + productID + " deleted successfully");
                         }
-                    } catch (ObjectNotFound e){
+                    } catch (ObjectNotFound e) {
                         System.out.println(e);
-                    }
-                    catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println(e);
                     }
                     break;
                 }
                 case 'g': {
+                    changeInformation(loginDTO);
+                    continue;
+                }
+                case 'h': {
                     return;
                 }
                 default: {
@@ -311,9 +317,59 @@ public class Main {
                 }
             }
 
-        }while(choice=='a'||choice=='b'||choice=='c'||choice=='d'||choice=='e'||choice=='f'||choice=='g');
+        } while (choice == 'a' || choice == 'b' || choice == 'c' || choice == 'd' || choice == 'e' || choice == 'f' || choice == 'g');
 
 
+    }
+
+    public static void changeInformation(LoginDTO loginDTO) throws Exception {
+        {
+            char choice1;
+            System.out.println();
+            System.out.println("q: Change Password");
+            System.out.println("w: Change Username");
+            System.out.println("Press any other character to go back to main menu");
+            choice1 = obj.next().charAt(0);
+            obj.nextLine();
+            switch (choice1) {
+                case 'q': {
+                    String OP, NP;
+                    System.out.print("Enter Old Password : ");
+                    OP = obj.nextLine();
+                    if (OP.equals(loginDTO.getPassword())) {
+                        System.out.print("Enter New Password : ");
+                        NP = obj.nextLine();
+                        UserDTO userDTO = new UserDTO();
+                        userDTO.setPassOfUser(NP);
+                        userController.changeInformation(userDTO, loginDTO.getUsername());
+                        System.out.println();
+                        System.out.println("Password Changed Successfully");
+                    } else {
+                        System.out.println("Wrong old Password entered");
+                    }
+                    return;
+                }
+                case 'w': {
+                    String NU;
+                    System.out.println("Old Username is: " + loginDTO.getUsername());
+                    System.out.print("Enter New Username : ");
+                    NU = obj.nextLine();
+                    UserDTO userDTO = new UserDTO();
+                    userDTO.setUserName(NU);
+                    try {
+                        userController.changeInformation(userDTO, loginDTO.getUsername());
+                        System.out.println();
+                        System.out.println("Username Changed Successfully");
+                    } catch (ObjectNotFound e) {
+                        System.out.println(e);
+                    }
+                    return;
+                }
+                default: {
+                    return;
+                }
+            }
+        }
     }
 
 }
