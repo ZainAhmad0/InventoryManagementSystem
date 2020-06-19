@@ -11,8 +11,8 @@ public class UserDAOImpl implements UserDAO {
             "(userType, firstName, lastName, fatherName, userName, passOfUser, address, mobileNumber)\n" +
             "VALUES({0}, ''{1}'', ''{2}'', ''{3}'', ''{4}'', ''{5}'', ''{6}'', ''{7}'');\n";
     private static final String UPDATE_INFORMATION = "UPDATE InventoryManagementSystem.Users\n" +
-            "SET userType={0}, firstName=''{1}'', lastName=''{2}'', fatherName=''{3}'', passOfUser=''{4}'', address=''{5}'', mobileNumber=''{6}''\n" +
-            "WHERE userName=''{7}'';\n";
+            "SET userType={0}, firstName=''{1}'', lastName=''{2}'', fatherName=''{3}'',userName=''{4}'', passOfUser=''{5}'', address=''{6}'', mobileNumber=''{7}''\n" +
+            "WHERE userName=''{8}'';\n";
     private  static final String FIND_BY_USERNAME = "SELECT * FROM InventoryManagementSystem.Users WHERE userName = ''{0}''";
     private  static final String GET_REGISTERED_USERS = "SELECT * FROM InventoryManagementSystem.Users WHERE userType = {0}";
     private  static final String DELETE_BY_USERNAME = "DELETE  FROM InventoryManagementSystem.Users WHERE userName = ''{0}'';";
@@ -86,7 +86,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void changeInformation(UserDTO userDTO, String existingUsername) throws SQLException {
         Connection conn = DB.connectDB();
-        String updateInformation = MessageFormat.format(UPDATE_INFORMATION,userDTO.getUserType(),userDTO.getFirstName(),userDTO.getLastName(),userDTO.getFatherName(),userDTO.getPassOfUser(),userDTO.getAddress(),userDTO.getMobileNumber());
+        String updateInformation = MessageFormat.format(UPDATE_INFORMATION,userDTO.getUserType(),userDTO.getFirstName(),userDTO.getLastName(),userDTO.getFatherName(),userDTO.getUserName(),userDTO.getPassOfUser(),userDTO.getAddress(),userDTO.getMobileNumber(),existingUsername);
         PreparedStatement statement = conn.prepareStatement(updateInformation);
         statement.executeUpdate();
     }

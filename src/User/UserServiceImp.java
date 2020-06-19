@@ -49,7 +49,7 @@ public class UserServiceImp implements UserService {
             userDTO1.setPassOfUser(userDTO.getPassOfUser());
             userDAO.changeInformation(userDTO1, existingUsername);
             return true;
-        } else if (!isUserNameValid(userDTO.getUserName())) {
+        } else if (isUserNameValid(userDTO.getUserName())) {
             userDTO1.setUserName(userDTO.getUserName());
             userDAO.changeInformation(userDTO1, existingUsername);
             return true;

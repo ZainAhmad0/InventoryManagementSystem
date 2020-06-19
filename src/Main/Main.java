@@ -344,6 +344,7 @@ public class Main {
                         userController.changeInformation(userDTO, loginDTO.getUsername());
                         System.out.println();
                         System.out.println("Password Changed Successfully");
+                        System.out.println();
                     } else {
                         System.out.println("Wrong old Password entered");
                     }
@@ -361,7 +362,9 @@ public class Main {
                         System.out.println();
                         System.out.println("Username Changed Successfully");
                     } catch (ObjectNotFound e) {
-                        System.out.println(e);
+                        System.out.println();
+                        System.out.println(e.getMessage());
+                        System.out.println();
                     }
                     return;
                 }
