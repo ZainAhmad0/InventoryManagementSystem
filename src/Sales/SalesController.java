@@ -93,39 +93,38 @@ public class SalesController {
     }
 
     public void generateReceipt(SalesDTO salesDTO, String username) throws SQLException {
-        totalBill=0.0;
+        totalBill = 0.0;
         System.out.println();
         System.out.println("                                    MFS Shopping Mall");
         System.out.println();
-        System.out.println("Current Date And Time : "+calObj.getTime());
+        System.out.println("Current Date And Time : " + calObj.getTime());
         ProductDTO[] productDTOS = productServiceImp.showTable("Products");
         System.out.println("Product Id               Quantity x Price Per Piece");
-        for (int i=0; i<salesDTO.getProductInfo().size(); i++){
-            for (int j=0; j<productDTOS.length; j++){
-                if(salesDTO.getProductInfo().get(i).getProductID()==productDTOS[j].getProductID()){
-                    System.out.println(salesDTO.getProductInfo().get(i).getProductID()+"                        "+salesDTO.getProductInfo().get(i).getQuantity()+" x "+productDTOS[j].getSalesPrice() + " = " + (salesDTO.getProductInfo().get(i).getQuantity()*productDTOS[j].getSalesPrice()));
-                    totalBill=totalBill+(salesDTO.getProductInfo().get(i).getQuantity()*productDTOS[j].getSalesPrice());
+        for (int i = 0; i < salesDTO.getProductInfo().size(); i++) {
+            for (int j = 0; j < productDTOS.length; j++) {
+                if (salesDTO.getProductInfo().get(i).getProductID() == productDTOS[j].getProductID()) {
+                    System.out.println(salesDTO.getProductInfo().get(i).getProductID() + "                        " + salesDTO.getProductInfo().get(i).getQuantity() + " x " + productDTOS[j].getSalesPrice() + " = " + (salesDTO.getProductInfo().get(i).getQuantity() * productDTOS[j].getSalesPrice()));
+                    totalBill = totalBill + (salesDTO.getProductInfo().get(i).getQuantity() * productDTOS[j].getSalesPrice());
                     break;
                 }
             }
         }
         System.out.println();
-        System.out.println("Your Total Bill Is : "+ totalBill);
+        System.out.println("Your Total Bill Is : " + totalBill);
         System.out.println(username + ", Thank you for shopping");
     }
 
     public boolean showPreviousSales(String userName) throws SQLException {
-        ResultSet resultSet =  salesService.getPreviousSales(userName);
-        int i=1;
-        if(resultSet.next()){
+        ResultSet resultSet = salesService.getPreviousSales(userName);
+        int i = 1;
+        if (resultSet.next()) {
             System.out.println(" Product ID                 Quantity                     Purchase Date and time");
             do {
-                System.out.println((i++)+". "+resultSet.getInt("Product_ID")+"                         "+resultSet.getInt("Quantity")+"                           "+resultSet.getString("Purchase_Date"));
+                System.out.println((i++) + ". " + resultSet.getInt("Product_ID") + "                         " + resultSet.getInt("Quantity") + "                           " + resultSet.getString("Purchase_Date"));
 
-            }while (resultSet.next());
+            } while (resultSet.next());
             return true;
-        }
-        else {
+        } else {
             return false;
         }
 

@@ -1,4 +1,5 @@
 package database;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -12,12 +13,7 @@ public class DB {
         String password = "";
         try {
             Class.forName(driver).newInstance();
-            conn = DriverManager.getConnection(url+dbName+"?useSSL=false",userName,password);
-
-            // System.out.println("Connected to the database");
-
-            //conn.close();
-            //System.out.println("Disconnected from database");
+            conn = DriverManager.getConnection(url + dbName + "?useSSL=false", userName, password);
         } catch (Exception e) {
             System.out.println(e.toString());
         }

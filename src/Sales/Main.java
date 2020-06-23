@@ -15,12 +15,12 @@ public class Main {
     public static void main(String[] args) throws Exception {
         productController.showProductsByCategory("Men Clothes");
         salesDTO = salesController.buyProducts("Zain");
-        salesDTO=salesController.validateProducts(salesDTO, "Men Clothes");
+        salesDTO = salesController.validateProducts(salesDTO, "Men Clothes");
         barcodeController.createBarcode(salesDTO);
-        salesDTO= barcodeController.validateBarcodes(salesDTO);
-        salesDTO=salesController.validateProductInStock(salesDTO);
-        salesController.addProductRecord(salesDTO,"Zain");
-        salesController.generateReceipt(salesDTO,"Zain Ahmad");
+        salesDTO = barcodeController.validateBarcodes(salesDTO);
+        salesDTO = salesController.validateProductInStock(salesDTO);
+        salesController.addProductRecord(salesDTO, "Zain");
+        salesController.generateReceipt(salesDTO, "Zain Ahmad");
 //        productController.showProductsByCategory("Laptops");
 //        salesDTO = salesController.buyProducts("Zain");
 //        salesDTO=salesController.validateProducts(salesDTO, "Laptops");

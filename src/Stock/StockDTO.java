@@ -17,6 +17,6 @@ public class StockDTO {
         this.itemsInStock = itemsInStock;
     }
 
-    private int productID,itemsInStock;
+    private int productID, itemsInStock;
 
 }

@@ -2,7 +2,7 @@ package exception;
 
 import User.UserDTO;
 
-public class UserNotValid extends RuntimeException{
+public class UserNotValid extends RuntimeException {
     String message;
 
     @Override

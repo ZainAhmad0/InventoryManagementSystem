@@ -3,12 +3,13 @@ package Barcode;
 import Sales.SalesDTO;
 import Sales.SalesProductDTO;
 import com.onbarcode.barcode.Code128;
+
 import java.util.ArrayList;
 import java.util.Scanner;
+
 public class BarcodeController {
     private Scanner obj = new Scanner(System.in);
     private ArrayList<SalesProductDTO> tempList = new ArrayList<SalesProductDTO>();
-
 
 
     public void createBarcode(SalesDTO salesDTO) throws Exception {

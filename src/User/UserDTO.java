@@ -1,7 +1,7 @@
 package User;
 
 public class UserDTO {
-    private String firstName,lastName,fatherName,userName,passOfUser,address,mobileNumber;
+    private String firstName, lastName, fatherName, userName, passOfUser, address, mobileNumber;
     private int userType;
 
     public int getUserType() {

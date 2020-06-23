@@ -39,7 +39,7 @@ public class SalesDAOImpl implements SalesDAO {
     @Override
     public ResultSet getPreviousSales(String userName) throws SQLException {
         Connection conn = DB.connectDB();
-        String findQuery = MessageFormat.format(GET_PREVIOUS_SALES,userName);
+        String findQuery = MessageFormat.format(GET_PREVIOUS_SALES, userName);
         PreparedStatement statement = conn.prepareStatement(findQuery);
         ResultSet result = statement.executeQuery();
         return result;

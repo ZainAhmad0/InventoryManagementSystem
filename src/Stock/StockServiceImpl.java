@@ -13,7 +13,7 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public boolean deleteProduct(int idOfProduct) throws SQLException {
-       return stockDAO.deleteProduct(idOfProduct);
+        return stockDAO.deleteProduct(idOfProduct);
     }
 
     @Override

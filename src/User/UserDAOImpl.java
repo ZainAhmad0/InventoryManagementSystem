@@ -13,9 +13,10 @@ public class UserDAOImpl implements UserDAO {
     private static final String UPDATE_INFORMATION = "UPDATE InventoryManagementSystem.Users\n" +
             "SET userType={0}, firstName=''{1}'', lastName=''{2}'', fatherName=''{3}'',userName=''{4}'', passOfUser=''{5}'', address=''{6}'', mobileNumber=''{7}''\n" +
             "WHERE userName=''{8}'';\n";
-    private  static final String FIND_BY_USERNAME = "SELECT * FROM InventoryManagementSystem.Users WHERE userName = ''{0}''";
-    private  static final String GET_REGISTERED_USERS = "SELECT * FROM InventoryManagementSystem.Users WHERE userType = {0}";
-    private  static final String DELETE_BY_USERNAME = "DELETE  FROM InventoryManagementSystem.Users WHERE userName = ''{0}'';";
+    private static final String FIND_BY_USERNAME = "SELECT * FROM InventoryManagementSystem.Users WHERE userName = ''{0}''";
+    private static final String GET_REGISTERED_USERS = "SELECT * FROM InventoryManagementSystem.Users WHERE userType = {0}";
+    private static final String DELETE_BY_USERNAME = "DELETE  FROM InventoryManagementSystem.Users WHERE userName = ''{0}'';";
+
     @Override
     public UserDTO createUser(UserDTO user) throws Exception {
         Connection conn = DB.connectDB();
@@ -51,25 +52,25 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void deleteUser(String username) throws SQLException {
         Connection conn = DB.connectDB();
-        String deleteQuery = MessageFormat.format(DELETE_BY_USERNAME,username);
+        String deleteQuery = MessageFormat.format(DELETE_BY_USERNAME, username);
         PreparedStatement statement = conn.prepareStatement(deleteQuery);
         statement.executeUpdate();
     }
 
     @Override
     public UserDTO[] getRegisteredUser() throws SQLException {
-        String getUsers = MessageFormat.format(GET_REGISTERED_USERS,0);
+        String getUsers = MessageFormat.format(GET_REGISTERED_USERS, 0);
         Connection conn = DB.connectDB();
         PreparedStatement statement = conn.prepareStatement(getUsers);
         ResultSet result = statement.executeQuery();
-        int rows=0;
-        while(result.next()){
+        int rows = 0;
+        while (result.next()) {
             rows++;
         }
         result.beforeFirst();
-        int count=0;
+        int count = 0;
         UserDTO[] users = new UserDTO[rows];
-        while (result.next()){
+        while (result.next()) {
             UserDTO temp = new UserDTO();
             temp.setUserName(result.getString("userName"));
             temp.setFirstName(result.getString("firstName"));
@@ -78,7 +79,7 @@ public class UserDAOImpl implements UserDAO {
             temp.setPassOfUser(result.getString("passOfUser"));
             temp.setAddress(result.getString("address"));
             temp.setMobileNumber(result.getString("mobileNumber"));
-            users[count++]=temp;
+            users[count++] = temp;
         }
         return users;
     }
@@ -86,7 +87,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void changeInformation(UserDTO userDTO, String existingUsername) throws SQLException {
         Connection conn = DB.connectDB();
-        String updateInformation = MessageFormat.format(UPDATE_INFORMATION,userDTO.getUserType(),userDTO.getFirstName(),userDTO.getLastName(),userDTO.getFatherName(),userDTO.getUserName(),userDTO.getPassOfUser(),userDTO.getAddress(),userDTO.getMobileNumber(),existingUsername);
+        String updateInformation = MessageFormat.format(UPDATE_INFORMATION, userDTO.getUserType(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getFatherName(), userDTO.getUserName(), userDTO.getPassOfUser(), userDTO.getAddress(), userDTO.getMobileNumber(), existingUsername);
         PreparedStatement statement = conn.prepareStatement(updateInformation);
         statement.executeUpdate();
     }

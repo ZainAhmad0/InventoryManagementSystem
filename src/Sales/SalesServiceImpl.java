@@ -51,8 +51,8 @@ public class SalesServiceImpl implements SalesService {
         stockDTOS = stockDAO.getStock();
         for (int j = 0; j < salesDTO.getProductInfo().size(); j++) {
             for (int i = 0; i < stockDTOS.size(); i++) {
-                if (salesDTO.getProductInfo().get(j).getProductID() == stockDTOS.get(i).getProductID() ) {
-                    if(stockDTOS.get(i).getItemsInStock()==0){
+                if (salesDTO.getProductInfo().get(j).getProductID() == stockDTOS.get(i).getProductID()) {
+                    if (stockDTOS.get(i).getItemsInStock() == 0) {
                         System.out.println("Product ID : " + salesDTO.getProductInfo().get(j).getProductID() + " Not in stock, And removed from card");
                         removeProducts.add(j);
                         break;
@@ -90,8 +90,8 @@ public class SalesServiceImpl implements SalesService {
             }
         }
         int temp;
-        for(int i =0; i<removeProducts.size(); i++){
-            temp=removeProducts.get(i);
+        for (int i = 0; i < removeProducts.size(); i++) {
+            temp = removeProducts.get(i);
             salesDTO.getProductInfo().remove(temp);
         }
         stockDAO.updateStock(stockDTOS);

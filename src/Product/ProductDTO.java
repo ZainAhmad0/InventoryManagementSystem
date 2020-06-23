@@ -4,7 +4,7 @@ public class ProductDTO {
     private int productID;
     private String productName;
     private String Category;
-    private Double salesPrice,purchasePrice;
+    private Double salesPrice, purchasePrice;
 
 
     public int getProductID() {
@@ -46,7 +46,6 @@ public class ProductDTO {
     public void setPurchasePrice(Double purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
-
 
 
 }
